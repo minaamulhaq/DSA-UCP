@@ -7,7 +7,6 @@ private:
     int imag;
 
 public:
-   
     ComplexNumber(int r = 0, int i = 0) {
         real = r;
         imag = i;
