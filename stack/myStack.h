@@ -5,10 +5,11 @@ class myStack:public stack<T>{
     void push(T);
     void pop();
     T top();
-    bool isEmplty();
+    bool isEmpty();
     bool isFull();
     void display();
     myStack(int);
+    myStack(const myStack<T>& other);
 };
 template<class T>
 void myStack<T>::display(){
@@ -20,7 +21,7 @@ void myStack<T>::display(){
 
 template<class T>
 T myStack<T>::top(){
-       if(!isEmplty()){
+       if(!isEmpty()){
         T value = this->arr[this->currentSize-1];
         return value;
        }else{
@@ -33,10 +34,9 @@ T myStack<T>::top(){
 
 template<class T>
 void myStack<T>::pop(){
-    if(!isEmplty()){
+    if(!isEmpty()){
         this->currentSize--;
-        cout << "Value is "<<  this->arr[this->currentSize] << endl;
-       
+        // cout << "Value is "<<  this->arr[this->currentSize] << endl;     
     }else{
         cout << "Stack is Empty"<<endl;
     }
@@ -58,7 +58,21 @@ bool myStack<T>::isFull(){
     return this->currentSize == this->maxSize-1;
 }
 template<class T>
-bool myStack<T>::isEmplty(){
+myStack<T>::myStack(const myStack<T>& other) : stack<T>(other.maxSize)
+{
+    this->currentSize = other.currentSize;
+
+    // Allocate new memory
+    this->arr = new T[this->maxSize];
+
+    // Copy elements
+    for(int i = 0; i < this->currentSize; i++)
+    {
+        this->arr[i] = other.arr[i];
+    }
+}
+template<class T>
+bool myStack<T>::isEmpty(){
     return this->currentSize == 0;
 }
 

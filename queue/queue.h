@@ -1,29 +1,30 @@
 #include<iostream>
 using namespace std;
 template<class T>
-class stack{
+class queue{
 protected:
     int currentSize;
     int maxSize;
-    T*arr;
+    T* arr;
 public:
-    virtual void push(T) = 0;
-    virtual void pop() = 0;
+    virtual void enqueue(T) = 0;
+    virtual void dequeue() = 0;
     virtual T top()= 0;
     virtual bool isEmpty() = 0;
     virtual bool isFull() = 0;
-    stack(int);
-    ~stack();
+    virtual void display()= 0;
+    queue(int);
+    ~queue();
 
     
 };
 template<class T>
-stack<T>::stack(int s){
+queue<T>::queue(int s){
     this->currentSize = 0;
     this->maxSize = s;
     this->arr = new T[s];
 }
 template<class T>
-stack<T>::~stack(){
+queue<T>::~queue(){
     delete [] this->arr;
 }
