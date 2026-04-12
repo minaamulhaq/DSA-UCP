@@ -1,8 +1,11 @@
 #include "queue.h"
-class myqueue : public queue<int>
+class circularQueue : public queue<int>
 {
+    int front;
+    int rare;
+
 public:
-    myqueue(int s) : queue(s) {}
+    circularQueue(int s) : queue(s), front(0), rare(0) {}
     void enqueue(int);
     void dequeue();
     int top();
@@ -10,46 +13,45 @@ public:
     bool isFull();
     void display();
 };
-void myqueue::enqueue(int x)
+void circularQueue::enqueue(int x)
 {
     if (isFull())
     {
         cout << "Queue is full. Cannot enqueue " << x << endl;
         return;
     }
-    arr[currentSize++] = x;
+    arr[rare] = x;
+    rare = (rare + 1) % maxSize;
+    currentSize++;
 }
-void myqueue::dequeue()
+void circularQueue::dequeue()
 {
     if (isEmpty())
     {
         cout << "Queue is empty. Cannot dequeue." << endl;
         return;
     }
-    for (int i = 0; i < currentSize - 1; i++)
-    {
-        arr[i] = arr[i + 1];
-    }
+    front = (front + 1) % maxSize;
     currentSize--;
 }
-int myqueue::top()
+int circularQueue::top()
 {
     if (isEmpty())
     {
         cout << "Queue is empty. No top element." << endl;
         return -1; // or throw an exception
     }
-    return arr[0];
+    return arr[front];
 }
-bool myqueue::isEmpty()
+bool circularQueue::isEmpty()
 {
     return currentSize == 0;
 }
-bool myqueue::isFull()
+bool circularQueue::isFull()
 {
     return currentSize == maxSize;
 }
-void myqueue::display()
+void circularQueue::display()
 {
     if (isEmpty())
     {
@@ -59,7 +61,7 @@ void myqueue::display()
     cout << "Queue elements: ";
     for (int i = 0; i < currentSize; i++)
     {
-        cout << arr[i] << " ";
+        cout << arr[(front + i) % maxSize] << " ";
     }
     cout << endl;
 }
