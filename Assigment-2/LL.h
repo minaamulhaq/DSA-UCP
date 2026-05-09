@@ -6,13 +6,28 @@ class LL : public LinkedList
 public:
     LL(/* args */);
     ~LL();
+    LL(const LL &other) : LinkedList()
+    {
+        Node *current = other.head;
+        while (current != nullptr)
+        {
+            insertAtTail(current->data);
+            current = current->next;
+        }
+    }
     void insertAtHead(int) override;
     void insertAtTail(int) override;
     int deleteAtHead() override;
     int deleteAtTail() override;
     void display() override;
+    bool isEmpty();
     void sort();
 };
+
+bool LL::isEmpty()
+{
+    return head == nullptr && tail == nullptr;
+}
 
 LL::LL(/* args */) : LinkedList()
 {
