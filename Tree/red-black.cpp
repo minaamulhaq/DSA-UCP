@@ -1,5 +1,5 @@
 #include <iostream>
-#include <queue>
+
 using namespace std;
 
 template <class T>
@@ -80,54 +80,38 @@ private:
 
     void rotateLeft(Node<T> *x)
     {
-        Node<T> *y = x->right;
+        Node<T> *y = x->left;
 
-        if (y == NULL)
+        Node<T> *z = getParent(root, x);
+        if (z == nullptr)
+        {
             return;
-
-        x->right = y->left;
-        y->left = x;
-
-        Node<T> *parent = getParent(root, x);
-
-        if (parent == NULL)
-        {
-            root = y;
         }
-        else if (parent->left == x)
-        {
-            parent->left = y;
-        }
-        else
-        {
-            parent->right = y;
-        }
+        x->left = z;
+        z->right = y;
+
+        // chnage the colour of x and y and z
+        char temp = x->colour;
+        x->colour = z->colour;
+        z->colour = temp;
+        y->colour = temp;
     }
 
     void rotateRight(Node<T> *x)
     {
-        Node<T> *y = x->left;
-
-        if (y == NULL)
+        Node<T> *y = x->right;
+        Node<T> *z = getParent(root, x);
+        if (z == nullptr)
+        {
             return;
-
-        x->left = y->right;
-        y->right = x;
-
-        Node<T> *parent = getParent(root, x);
-
-        if (parent == NULL)
-        {
-            root = y;
         }
-        else if (parent->left == x)
-        {
-            parent->left = y;
-        }
-        else
-        {
-            parent->right = y;
-        }
+        x->right = z;
+        z->left = y;
+        // chnage the colour of x and y and z
+        char temp = x->colour;
+        x->colour = z->colour;
+        z->colour = temp;
+        y->colour = temp;
     }
 
     void fixInsertion(Node<T> *node)
@@ -285,49 +269,27 @@ public:
         cout << endl;
     }
 
-    void levelOrder()
-    {
-        if (root == NULL)
-            return;
 
-        queue<Node<T> *> q;
-        q.push(root);
 
-        while (!q.empty())
-        {
-            Node<T> *current = q.front();
-            q.pop();
 
-            cout << current->data << "(" << current->colour << ") ";
-
-            if (current->left != NULL)
-                q.push(current->left);
-
-            if (current->right != NULL)
-                q.push(current->right);
-        }
-
-        cout << endl;
-    }
 };
 
 int main()
 {
     RedBlackTree<int> tree;
 
-    tree.insert(500);
-    tree.insert(800);
-    tree.insert(1500);
-    tree.insert(300);
-    tree.insert(3000);
-    tree.insert(2000);
-    tree.insert(4000);
+    tree.insert(1);
+    tree.insert(2);
+    tree.insert(3);
+    tree.insert(4);
+    tree.insert(5);
+    tree.insert(6);
+    tree.insert(8);
+    tree.insert(9);
 
     cout << "Inorder: ";
     tree.inorder();
 
-    cout << "Level Order: ";
-    tree.levelOrder();
 
     return 0;
 }
